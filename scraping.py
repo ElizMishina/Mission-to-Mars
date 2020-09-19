@@ -20,6 +20,7 @@ def scrape_all():
         "last_modified": dt.datetime.now()
     }
     browser.quit()
+    #print(data["facts"])
     return data
 
 
@@ -82,18 +83,20 @@ def featured_image(browser):
     
     return img_url
 
-
 def mars_facts():
-    # The Following code is scraping info about mars
+    # Add try/except for error handling
     try:
+        # Use 'read_html' to scrape the facts table into a datafram
         df = pd.read_html('http://space-facts.com/mars/')[0]
     except BaseException:
         return None
     
-    df.columns=['description', 'value']
-    df.set_index('description', inplace=True)
+    # Assign columns and set index of dataframe
+    df.columns=['Description', 'Mars']
+    df.set_index('Description', inplace=True)
     
-    return df.to_html()
+    # Convert dataframe into HTML format, add bootstrap
+    return df.to_html(classes="table table-striped")
 
 
 if __name__ == "__main__":
